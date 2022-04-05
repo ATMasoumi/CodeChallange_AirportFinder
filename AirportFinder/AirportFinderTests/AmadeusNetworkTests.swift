@@ -1,27 +1,27 @@
 //
-//  AirportFinderTests.swift
+//  AmadeusNetworkTests.swift
 //  AirportFinderTests
 //
-//  Created by Amin on 1/16/1401 AP.
+//  Created by Amin on 1/17/1401 AP.
 //
 
 import XCTest
 @testable import AirportFinder
 
-class AirportFinderTests: XCTestCase {
-    
-    var testCase :AirportFinderViewModel!
-
+class AmadeusNetworkTests: XCTestCase {
+    var testCase:AmadeusNetworkManagerProtocol!
     override func setUpWithError() throws {
-        testCase = AirportFinderViewModel(networkManger: AmadeusNetworkManager())
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+        testCase = AmadeusNetworkMock()
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testGetListOfAirportsWithLatAndLong() throws {
-        
+    func testGetAirportsForLatAndLongAndRadius() throws {
+        let airports = testCase.getListOfAirportsFor(lat: 51.57285, long: -0.44161, radius: 1000)
+        print(airports.count)
     }
 
     func testPerformanceExample() throws {

@@ -1,0 +1,85 @@
+//
+//  AirportFinderModels.swift
+//  AirportFinder
+//
+//  Created by Amin on 1/16/1401 AP.
+//
+
+import Foundation
+
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let listOfAirports = try? newJSONDecoder().decode(ListOfAirports.self, from: jsonData)
+
+import Foundation
+
+typealias Airport = Datum
+// MARK: - ListOfAirports
+struct ListOfAirports: Codable {
+    let meta: Meta
+    let data: [Airport]
+}
+
+// MARK: - Datum
+struct Datum: Codable,Equatable {
+    static func == (lhs: Datum, rhs: Datum) -> Bool {
+        lhs.geoCode.latitude == rhs.geoCode.latitude && lhs.geoCode.longitude == rhs.geoCode.longitude
+    }
+    
+    let type: String
+    let subType: String
+    let name, detailedName: String
+    let timeZoneOffset: String
+    let iataCode: String
+    let geoCode: GeoCode
+    let address: Address
+    let distance: Distance
+    let analytics: Analytics
+    let relevance: Double
+}
+
+// MARK: - Address
+struct Address: Codable {
+    let cityName, cityCode: String
+    let countryName: String
+    let countryCode: String
+    let regionCode: String
+}
+
+
+// MARK: - Analytics
+struct Analytics: Codable {
+    let flights, travelers: Flights
+}
+
+// MARK: - Flights
+struct Flights: Codable {
+    let score: Int
+}
+
+// MARK: - Distance
+struct Distance: Codable {
+    let value: Int
+    let unit: String
+}
+
+// MARK: - GeoCode
+struct GeoCode: Codable {
+    let latitude, longitude: Double
+}
+// MARK: - Meta
+struct Meta: Codable {
+    let count: Int
+    let links: Links
+}
+
+// MARK: - Links
+struct Links: Codable {
+    let linksSelf, next, last: String
+
+    enum CodingKeys: String, CodingKey {
+        case linksSelf = "self"
+        case next, last
+    }
+}

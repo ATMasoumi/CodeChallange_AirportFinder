@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		186309D227FCDE990088DCC9 /* MockAirportJson.json in Resources */ = {isa = PBXBuildFile; fileRef = 186309D127FCDE990088DCC9 /* MockAirportJson.json */; };
 		188B8DF227FCC7C8002A5F33 /* AirportFinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8DF127FCC7C8002A5F33 /* AirportFinderApp.swift */; };
 		188B8DF427FCC7C8002A5F33 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8DF327FCC7C8002A5F33 /* ContentView.swift */; };
 		188B8DF627FCC7CC002A5F33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 188B8DF527FCC7CC002A5F33 /* Assets.xcassets */; };
@@ -14,6 +15,11 @@
 		188B8E0327FCC7CD002A5F33 /* AirportFinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8E0227FCC7CD002A5F33 /* AirportFinderTests.swift */; };
 		188B8E0D27FCC7CD002A5F33 /* AirportFinderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8E0C27FCC7CD002A5F33 /* AirportFinderUITests.swift */; };
 		188B8E0F27FCC7CD002A5F33 /* AirportFinderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8E0E27FCC7CD002A5F33 /* AirportFinderUITestsLaunchTests.swift */; };
+		188B8E1C27FCC8E5002A5F33 /* AirportFinderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8E1B27FCC8E5002A5F33 /* AirportFinderViewModel.swift */; };
+		188B8E1E27FCC8FA002A5F33 /* AirportFinderModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8E1D27FCC8FA002A5F33 /* AirportFinderModels.swift */; };
+		188B8E2027FCD4FB002A5F33 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8E1F27FCD4FB002A5F33 /* NetworkManager.swift */; };
+		188B8E2227FCD6C0002A5F33 /* AmadeusNetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8E2127FCD6C0002A5F33 /* AmadeusNetworkTests.swift */; };
+		188B8E2527FCD709002A5F33 /* AmadeusNetworkMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B8E2427FCD709002A5F33 /* AmadeusNetworkMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		186309D127FCDE990088DCC9 /* MockAirportJson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MockAirportJson.json; sourceTree = "<group>"; };
 		188B8DEE27FCC7C8002A5F33 /* AirportFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirportFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		188B8DF127FCC7C8002A5F33 /* AirportFinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportFinderApp.swift; sourceTree = "<group>"; };
 		188B8DF327FCC7C8002A5F33 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +51,11 @@
 		188B8E0827FCC7CD002A5F33 /* AirportFinderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AirportFinderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		188B8E0C27FCC7CD002A5F33 /* AirportFinderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportFinderUITests.swift; sourceTree = "<group>"; };
 		188B8E0E27FCC7CD002A5F33 /* AirportFinderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportFinderUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		188B8E1B27FCC8E5002A5F33 /* AirportFinderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportFinderViewModel.swift; sourceTree = "<group>"; };
+		188B8E1D27FCC8FA002A5F33 /* AirportFinderModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportFinderModels.swift; sourceTree = "<group>"; };
+		188B8E1F27FCD4FB002A5F33 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		188B8E2127FCD6C0002A5F33 /* AmadeusNetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmadeusNetworkTests.swift; sourceTree = "<group>"; };
+		188B8E2427FCD709002A5F33 /* AmadeusNetworkMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmadeusNetworkMock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +108,9 @@
 			children = (
 				188B8DF127FCC7C8002A5F33 /* AirportFinderApp.swift */,
 				188B8DF327FCC7C8002A5F33 /* ContentView.swift */,
+				188B8E1B27FCC8E5002A5F33 /* AirportFinderViewModel.swift */,
+				188B8E1D27FCC8FA002A5F33 /* AirportFinderModels.swift */,
+				188B8E1F27FCD4FB002A5F33 /* NetworkManager.swift */,
 				188B8DF527FCC7CC002A5F33 /* Assets.xcassets */,
 				188B8DF727FCC7CC002A5F33 /* Preview Content */,
 			);
@@ -113,7 +128,9 @@
 		188B8E0127FCC7CD002A5F33 /* AirportFinderTests */ = {
 			isa = PBXGroup;
 			children = (
+				188B8E2327FCD6F3002A5F33 /* Mocks */,
 				188B8E0227FCC7CD002A5F33 /* AirportFinderTests.swift */,
+				188B8E2127FCD6C0002A5F33 /* AmadeusNetworkTests.swift */,
 			);
 			path = AirportFinderTests;
 			sourceTree = "<group>";
@@ -125,6 +142,15 @@
 				188B8E0E27FCC7CD002A5F33 /* AirportFinderUITestsLaunchTests.swift */,
 			);
 			path = AirportFinderUITests;
+			sourceTree = "<group>";
+		};
+		188B8E2327FCD6F3002A5F33 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				186309D127FCDE990088DCC9 /* MockAirportJson.json */,
+				188B8E2427FCD709002A5F33 /* AmadeusNetworkMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186309D227FCDE990088DCC9 /* MockAirportJson.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +284,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				188B8E1C27FCC8E5002A5F33 /* AirportFinderViewModel.swift in Sources */,
+				188B8E1E27FCC8FA002A5F33 /* AirportFinderModels.swift in Sources */,
+				188B8E2027FCD4FB002A5F33 /* NetworkManager.swift in Sources */,
 				188B8DF427FCC7C8002A5F33 /* ContentView.swift in Sources */,
 				188B8DF227FCC7C8002A5F33 /* AirportFinderApp.swift in Sources */,
 			);
@@ -266,7 +296,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				188B8E2527FCD709002A5F33 /* AmadeusNetworkMock.swift in Sources */,
 				188B8E0327FCC7CD002A5F33 /* AirportFinderTests.swift in Sources */,
+				188B8E2227FCD6C0002A5F33 /* AmadeusNetworkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

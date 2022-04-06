@@ -13,22 +13,20 @@ class AirportFinderTests: XCTestCase {
     var testCase :AirportFinderViewModel!
 
     override func setUpWithError() throws {
-        testCase = AirportFinderViewModel(networkManger: AmadeusNetworkManager())
+        testCase = AirportFinderViewModel(networkManger: AmadeusNetworkMock())
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+
     }
 
-    func testGetListOfAirportsWithLatAndLong() throws {
-        
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testGetListOfAirportsWithLatAndLongAndRadius() throws {
+        let expect = expectation(description: "listOfAirports")
+        testCase.getListOfAirportsFor(lat: 51.57285, long: -0.44161, radius: 1000) { [unowned self] airports in
+            expect.fulfill()
+            XCTAssertEqual(testCase.airports.count, 10)
         }
+        wait(for: [expect], timeout: 2)
     }
 
 }

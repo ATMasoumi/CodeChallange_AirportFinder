@@ -9,13 +9,12 @@ import Foundation
 @testable import AirportFinder
 
 class AmadeusNetworkMock:AmadeusNetworkManagerProtocol {
-    
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int) -> [Airport] {
+    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, completion: @escaping ([Airport]) -> ()) {
         let data = getData(name: "MockAirportJson")
         if let listOfAirports = try? JSONDecoder().decode(ListOfAirports.self, from: data){
-            return listOfAirports.data
+            completion(listOfAirports.data)
         }else{
-            return []
+            completion([])
         }
     }
     

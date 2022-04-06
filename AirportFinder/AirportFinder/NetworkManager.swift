@@ -8,11 +8,11 @@
 import Foundation
 
 protocol AmadeusNetworkManagerProtocol {
-    func getListOfAirportsFor(lat: Double, long: Double, radius:Int) -> [Airport]
+    func getListOfAirportsFor(lat: Double, long: Double, radius:Int,completion:@escaping(_ airports:[Airport]) -> ())
 }
 class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int) -> [Airport] {
-        return []
+    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, completion: @escaping ([Airport]) -> ()) {
+        completion([])
     }
     
 }

@@ -22,7 +22,12 @@ struct ListOfAirports: Codable {
 }
 
 // MARK: - Datum
-struct Datum: Codable,Equatable {
+struct Datum: Codable,Equatable,Identifiable {
+    
+    var id : String {
+        String(geoCode.latitude) + String(geoCode.longitude)
+    }
+    
     static func == (lhs: Datum, rhs: Datum) -> Bool {
         lhs.geoCode.latitude == rhs.geoCode.latitude && lhs.geoCode.longitude == rhs.geoCode.longitude
     }

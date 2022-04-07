@@ -17,28 +17,38 @@ struct ContentView: View {
         return numberFormatter
     }()
     
+    init(){
+//        UITableView.appearance().backgroundColor = .secondarySystemFill
+
+    }
+    
     var body: some View {
        
-        NavigationView {
-            VStack {
-                HStack{
-                    Text("Lat")
-                    TextField("50.01", value: $viewModel.lat,formatter: numberFormatter)
-                        .keyboardType(.decimalPad)
-                }.padding()
-                
-                HStack{
-                    Text("Lat")
-                    TextField("12.3456", value: $viewModel.long,formatter: numberFormatter)
-                        .keyboardType(.decimalPad)
-                }.padding()
-                
-                NavigationLink("Search") {
-                    ListOfAirportsView(viewModel: viewModel)
+        
+            NavigationView {
+                ZStack {
+                    Color(uiColor: UIColor.systemGroupedBackground).ignoresSafeArea()
+                    VStack {
+                        HStack{
+                            Text("Lat")
+                            TextField("50.01", value: $viewModel.lat,formatter: numberFormatter)
+                                .keyboardType(.decimalPad)
+                        }.padding()
+                        
+                        HStack{
+                            Text("long")
+                            TextField("12.3456", value: $viewModel.long,formatter: numberFormatter)
+                                .keyboardType(.decimalPad)
+                        }.padding()
+                        
+                        NavigationLink("Search") {
+                            ListOfAirportsView(viewModel: viewModel)
+                        }
+                    }
+                    .navigationTitle("Airport Finder")
                 }
             }
-            .navigationTitle("Airport Finder")
-        }
+        
         
     }
 }

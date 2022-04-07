@@ -9,12 +9,15 @@ import SwiftUI
 
 struct ListOfAirportsView: View {
     @ObservedObject var viewModel:AirportFinderViewModel
+    
     var body: some View {
         List{
             ForEach(viewModel.airports) { airport in
-                Text(airport.name)
+                AirportsCellView(for: airport)
             }
+            .listRowSeparator(.hidden, edges: .all)
         }
+        .listStyle(.plain)
     }
 }
 

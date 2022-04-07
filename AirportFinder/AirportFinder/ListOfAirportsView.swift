@@ -18,6 +18,11 @@ struct ListOfAirportsView: View {
             .listRowSeparator(.hidden, edges: .all)
         }
         .listStyle(.plain)
+        .onAppear {
+            viewModel.getListOfAirportsFor(lat: 1, long: 1, radius: 1) { Airports in
+                
+            }
+        }
     }
 }
 

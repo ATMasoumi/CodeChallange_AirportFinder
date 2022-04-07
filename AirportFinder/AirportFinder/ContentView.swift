@@ -8,48 +8,42 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewModel = AirportFinderViewModel(networkManger: AmadeusNetworkMock())
-    
-    private let numberFormatter: NumberFormatter = {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.maximumFractionDigits = 10
-        return numberFormatter
-    }()
-    
-    init(){
-//        UITableView.appearance().backgroundColor = .secondarySystemFill
-
-    }
-    
+    @StateObject var viewModel = AirportFinderViewModel(networkManger: AmadeusNetworkManager())
+    @State var DetailViewIsActive = false
     var body: some View {
-       
-        
-            NavigationView {
-                ZStack {
-                    Color(uiColor: UIColor.systemGroupedBackground).ignoresSafeArea()
-                    VStack {
-                        HStack{
-                            Text("Lat")
-                            TextField("50.01", value: $viewModel.lat,formatter: numberFormatter)
-                                .keyboardType(.decimalPad)
-                        }.padding()
-                        
-                        HStack{
-                            Text("long")
-                            TextField("12.3456", value: $viewModel.long,formatter: numberFormatter)
-                                .keyboardType(.decimalPad)
-                        }.padding()
-                        
-                        NavigationLink("Search") {
-                            ListOfAirportsView(viewModel: viewModel)
-                        }
-                    }
-                    .navigationTitle("Airport Finder")
+        NavigationView {
+            ZStack {
+                
+                Color(uiColor: UIColor.systemGroupedBackground).ignoresSafeArea()
+                
+                NavigationLink("", isActive: $DetailViewIsActive) {
+                    ListOfAirportsView(viewModel: viewModel)
                 }
+                
+                VStack {
+                    
+                    HStack{
+                        Text("Lat")
+                        TextField("50.01", value: $viewModel.lat,formatter: viewModel.numberFormatter)
+                            .keyboardType(.decimalPad)
+                    }.padding()
+                    
+                    HStack{
+                        Text("long")
+                        TextField("12.3456", value: $viewModel.long,formatter: viewModel.numberFormatter)
+                            .keyboardType(.decimalPad)
+                    }.padding()
+                    
+                    Button{
+                        DetailViewIsActive = true
+                    }label: {
+                        Text("Search")
+                    }
+                    
+                }
+                .navigationTitle("Airport Finder")
             }
-        
-        
+        }
     }
 }
 

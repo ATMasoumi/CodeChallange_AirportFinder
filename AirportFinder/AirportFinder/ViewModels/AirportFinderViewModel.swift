@@ -10,8 +10,35 @@ import Foundation
 class AirportFinderViewModel:ObservableObject {
     
     let networkManger:AmadeusNetworkManagerProtocol
+    let radius = 500
+    let userDefaults:UserDefaults
     
     @Published var airportsData: AirportsData? = nil
+    @Published var lat:String = ""
+    @Published var long:String = ""
+    
+    var tokenContent:TokenContent? {
+        set {
+            guard let newValue = newValue else { return }
+            let tokenData = try? JSONEncoder().encode(newValue)
+            userDefaults.set(tokenData, forKey: "token")
+            userDefaults.set(Date().timeIntervalSince1970+Double(newValue.expiresIn),forKey: "tokenDate")
+        }
+        get {
+            if let data = userDefaults.value(forKey:"token") as? Data {
+                let tokenContent = try? JSONDecoder().decode(TokenContent.self, from: data)
+                let date = Date(timeIntervalSince1970: userDefaults.double(forKey: "tokenDate"))
+                if date > Date() {
+                    return tokenContent
+                }else{
+                    return nil
+                }
+            }else{
+                return nil
+            }
+           
+        }
+    }
     var airports:[Airport] {
         if let airportsData = airportsData {
             return airportsData.data
@@ -19,19 +46,6 @@ class AirportFinderViewModel:ObservableObject {
             return []
         }
     }
-    @Published var lat:String = ""
-    @Published var long:String = ""
-    let radius = 500
-    let userDefaults:UserDefaults
-    var token:String? {
-        set {
-            userDefaults.set(newValue, forKey: "token")
-        }
-        get {
-            userDefaults.string(forKey:"token")
-        }
-    }
-    
     let numberFormatter: NumberFormatter = {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -53,30 +67,30 @@ class AirportFinderViewModel:ObservableObject {
             return
         }
 
-        if token == nil {
-            getToken { [unowned self] in
-                networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, token: token!) { airportsData in
-                    guard let airportsData = airportsData else {
-                        return
-                    }
-                    self.airportsData = airportsData
-                    completion()
-                }
-            } 
-        }else {
-            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, token: token!) { airportsData in
+        if let tokenContent = tokenContent {
+            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, tokenContent: tokenContent) { airportsData in
                 guard let airportsData = airportsData else {
                     return
                 }
                 self.airportsData = airportsData
                 completion()
             }
+        } else {
+            getToken { [unowned self] in
+                networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, tokenContent: tokenContent!) { airportsData in
+                    guard let airportsData = airportsData else {
+                        return
+                    }
+                    self.airportsData = airportsData
+                    completion()
+                }
+            }
         } 
     }
     
     func getToken(completion:@escaping() -> ()) {
         networkManger.getToken { [weak self] tokenContent in
-            self?.token = tokenContent.accessToken
+            self?.tokenContent = tokenContent
             completion()
         }
     }

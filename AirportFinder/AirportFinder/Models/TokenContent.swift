@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TokenContent: Codable {
+struct TokenContent: Codable,Equatable {
     let type, username, applicationName, clientID: String
     let tokenType, accessToken: String
     let expiresIn: Int

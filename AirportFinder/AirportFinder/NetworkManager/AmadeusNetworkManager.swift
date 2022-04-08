@@ -16,13 +16,13 @@ enum AmadeusSort:String {
 }
 
 protocol AmadeusNetworkManagerProtocol {
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion:@escaping(_ airportsData:AirportsData?) -> ())
+    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, tokenContent: TokenContent, completion:@escaping(_ airportsData:AirportsData?) -> ())
     func getToken(completion:@escaping(_ TokenContent:TokenContent) -> ())
 }
 
 class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
     
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion: @escaping (_ airportsData:AirportsData?) -> ()) {
+    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, tokenContent: TokenContent, completion: @escaping (_ airportsData:AirportsData?) -> ()) {
                
         var components = URLComponents()
             components.scheme = "https"
@@ -32,14 +32,14 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
                 URLQueryItem(name: "latitude", value: "\(lat)"),
                 URLQueryItem(name: "longitude", value: "\(long)"),
 //                URLQueryItem(name: "radius", value: "100"),
-//                URLQueryItem(name: "page[limit]", value: "10"),
+                URLQueryItem(name: "page[limit]", value: "20"),
 //                URLQueryItem(name: "page[offset]", value: "0"),
 //                URLQueryItem(name: "sort", value: AmadeusSort.relevance.rawValue)
             ]
         
         var request = URLRequest(url: components.url!)
         request.httpMethod = "GET"
-        request.addValue("Bearer \(token)", forHTTPHeaderField:"authorization")
+        request.addValue("Bearer \(tokenContent.accessToken)", forHTTPHeaderField:"authorization")
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {

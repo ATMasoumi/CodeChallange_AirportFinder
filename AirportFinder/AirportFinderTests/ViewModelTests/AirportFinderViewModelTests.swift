@@ -33,13 +33,13 @@ class AirportFinderViewModelTests: XCTestCase {
     }
     
     func testCaseTokenIsEmpty_getToken_isNotEmpty() {
-        let token = testCase.token
+        let token = testCase.tokenContent
         XCTAssertEqual(token, nil)
         
         let expect = expectation(description: "GetToken")
         testCase.getToken() { [weak self] in
             expect.fulfill()
-            XCTAssertNotNil(self?.testCase.token)
+            XCTAssertNotNil(self?.testCase.tokenContent)
         }
         wait(for: [expect], timeout: 30)
     }
@@ -47,13 +47,13 @@ class AirportFinderViewModelTests: XCTestCase {
     
     func testGetAirports_tokenIsNil_GetToken() {
         
-        XCTAssertEqual(testCase.token, nil)
+        XCTAssertEqual(testCase.tokenContent, nil)
         let expect = expectation(description: "getAirports")
         testCase.lat = "51.57285"
         testCase.long = "-0.44161"
         testCase.getListOfAirports() { [unowned self] in
-            XCTAssertNotNil(testCase.token)
-            XCTAssertEqual(testCase.airports.count, 10)
+            XCTAssertNotNil(testCase.tokenContent)
+            XCTAssertEqual(testCase.airports.count, 20)
             expect.fulfill()
         }
         wait(for: [expect], timeout: 30)

@@ -24,6 +24,7 @@ class AirportFinderViewModelMockedTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+        
     }
 
     func testGetListOfAirportsWithLatAndLongAndRadius() throws {
@@ -43,23 +44,23 @@ class AirportFinderViewModelMockedTests: XCTestCase {
     }
     
     func testCaseTokenIsEmpty_getToken() {
-        let token = testCase.token
+        let token = testCase.tokenContent
         XCTAssertEqual(token, nil)
         
         testCase.getToken() { [weak self] in
-            XCTAssertNotNil(self?.testCase.token)
+            XCTAssertNotNil(self?.testCase.tokenContent)
         }
         
     }
     
     func testGetAirports_tokenIsNil_GetToken() {
         
-        XCTAssertEqual(testCase.token, nil)
+        XCTAssertEqual(testCase.tokenContent, nil)
         let expect = expectation(description: "getAirports")
         testCase.lat = "51.57285"
         testCase.long = "-0.44161"
         testCase.getListOfAirports() { [unowned self] in
-            XCTAssertNotNil(testCase.token)
+            XCTAssertNotNil(testCase.tokenContent)
             XCTAssertEqual(testCase.airports.count, 10)
             expect.fulfill()
         }
@@ -68,19 +69,43 @@ class AirportFinderViewModelMockedTests: XCTestCase {
     
     func testGetAirports_tokenIsNotNil_getAirports() {
         
-        XCTAssertEqual(testCase.token, nil)
-        testCase.token = "234qwkjehk124b"
-        XCTAssertNotNil(testCase.token)
+        XCTAssertEqual(testCase.tokenContent, nil)
+        let tokenContent = TokenContent(type: "amadeusOAuth2Token", username: "torabi.dsd@gmail.com", applicationName: "AirportFinder", clientID: "ijUa006HGfN8b6P2IBdETvQX8oKYkJQT", tokenType: "Bearer", accessToken: "ISwPR5ft0tq82aGUgZHK40wcxiQC", expiresIn: 5, state: "approved", scope: "")
+        testCase.tokenContent = tokenContent
+        XCTAssertNotNil(testCase.tokenContent)
         
         let expect = expectation(description: "getAirports")
         testCase.lat = "51.57285"
         testCase.long = "-0.44161"
         testCase.getListOfAirports() { [unowned self] in
-            XCTAssertNotNil(testCase.token)
+            XCTAssertNotNil(testCase.tokenContent)
             XCTAssertEqual(testCase.airports.count, 10)
             expect.fulfill()
         }
         wait(for: [expect], timeout: 3)
+    }
+    
+    func testTokenExpires_tokenIsNil_getsAnotherToken() {
+        XCTAssertEqual(testCase.tokenContent, nil)
+        
+        let tokenContent = TokenContent(type: "amadeusOAuth2Token", username: "torabi.dsd@gmail.com", applicationName: "AirportFinder", clientID: "ijUa006HGfN8b6P2IBdETvQX8oKYkJQT", tokenType: "Bearer", accessToken: "ISwPR5ft0tq82aGUgZHK40wcxiQC", expiresIn: 5, state: "approved", scope: "")
+        
+        testCase.tokenContent = tokenContent
+        testCase.lat = "51.57285"
+        testCase.long = "-0.44161"
+        
+        let expect = expectation(description: "getAirports")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6) { [unowned self] in
+            XCTAssertNil(testCase.tokenContent)
+            testCase.getListOfAirports() { 
+                XCTAssertNotNil(testCase.tokenContent)
+                XCTAssertEqual(testCase.airports.count, 10)
+                expect.fulfill()
+            }
+            
+        }
+        wait(for: [expect], timeout: 10)
     }
     
 

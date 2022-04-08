@@ -19,15 +19,15 @@ struct ListOfAirportsView: View {
         }
         .listStyle(.plain)
         .onAppear {
-            viewModel.getListOfAirportsFor(lat: 1, long: 1, radius: 1) { Airports in
-                
-            }
+//            viewModel.getListOfAirportsFor(lat: 1, long: 1) {
+//                
+//            }
         }
     }
 }
 
 struct ListOfAirportsView_Previews: PreviewProvider {
     static var previews: some View {
-        ListOfAirportsView(viewModel: AirportFinderViewModel(networkManger: AmadeusNetworkMock()))
+        ListOfAirportsView(viewModel: AirportFinderViewModel(networkManger: AmadeusNetworkMock(), userDefaults: UserDefaults()))
     }
 }

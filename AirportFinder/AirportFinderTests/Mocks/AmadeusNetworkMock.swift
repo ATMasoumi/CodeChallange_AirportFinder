@@ -7,6 +7,7 @@
 
 import Foundation
 @testable import AirportFinder
+
 class AmadeusNetworkMock:AmadeusNetworkManagerProtocol {
     
     func getToken(completion: @escaping (TokenContent) -> ()) {

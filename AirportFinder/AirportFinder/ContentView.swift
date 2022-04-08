@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewModel = AirportFinderViewModel(networkManger: AmadeusNetworkManager())
+    @StateObject var viewModel = AirportFinderViewModel(networkManger: AmadeusNetworkManager(), userDefaults: UserDefaults())
     @State var DetailViewIsActive = false
     var body: some View {
         NavigationView {
@@ -35,7 +35,7 @@ struct ContentView: View {
                     }.padding()
                     
                     Button{
-                        DetailViewIsActive = true
+                        
                     }label: {
                         Text("Search")
                     }

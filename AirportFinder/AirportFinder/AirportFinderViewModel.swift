@@ -14,6 +14,16 @@ class AirportFinderViewModel:ObservableObject {
     @Published var airports:[Airport] = []
     @Published var lat:Double? = nil
     @Published var long:Double? = nil
+    let radius = 500
+    let userDefaults:UserDefaults
+    var token:String? {
+        set {
+            userDefaults.set(newValue, forKey: "token")
+        }
+        get {
+            userDefaults.string(forKey:"token")
+        }
+    }
     
     let numberFormatter: NumberFormatter = {
         let numberFormatter = NumberFormatter()
@@ -22,19 +32,48 @@ class AirportFinderViewModel:ObservableObject {
         return numberFormatter
     }()
     
-    init(networkManger:AmadeusNetworkManagerProtocol){
+    init(networkManger:AmadeusNetworkManagerProtocol,userDefaults:UserDefaults){
         self.networkManger = networkManger
-        getListOfAirportsFor(lat: 1, long: 1, radius: 1) { _ in }
+        self.userDefaults = userDefaults
     }
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, completion: @escaping ([Airport]) -> ()) {
-        networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance) { airports in
-            self.airports = airports
-            completion(airports)
+    
+    func getListOfAirportsFor(lat: Double, long: Double, completion: @escaping () -> ()) {
+        if token == nil {
+            getToken { [unowned self] in
+                getAirports {
+                    completion()
+                }
+            } 
+        }else {
+            getAirports {
+                completion()
+            }
+        } 
+    }
+    
+    func getToken(completion:@escaping() -> ()) {
+        networkManger.getToken { [weak self] tokenContent in
+            self?.token = tokenContent.accessToken
+            completion()
         }
     }
-    func getTokenIfNeeded() {
-        networkManger.getToken { TokenContent in
-            print(TokenContent)
+    
+    func getAirports(completion:@escaping() -> ()) {
+        lat = 12
+        long = 12
+        
+        guard let lat = lat else {
+            completion()
+            return
+        }
+        guard let long = long else {
+            completion()
+            return
+        }
+
+        networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance) { airports in
+            self.airports = airports
+            completion()
         }
     }
     

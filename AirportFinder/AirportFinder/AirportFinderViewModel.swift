@@ -45,7 +45,7 @@ class AirportFinderViewModel:ObservableObject {
     }
     
     
-    func getListOfAirports() {
+    func getListOfAirports(completion:@escaping() -> ()) {
         guard let lat = Double(lat) else {
             return
         }
@@ -60,6 +60,7 @@ class AirportFinderViewModel:ObservableObject {
                         return
                     }
                     self.airportsData = airportsData
+                    completion()
                 }
             } 
         }else {
@@ -68,6 +69,7 @@ class AirportFinderViewModel:ObservableObject {
                     return
                 }
                 self.airportsData = airportsData
+                completion()
             }
         } 
     }

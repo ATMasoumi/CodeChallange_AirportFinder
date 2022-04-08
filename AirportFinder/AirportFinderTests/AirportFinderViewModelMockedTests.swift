@@ -28,7 +28,9 @@ class AirportFinderViewModelMockedTests: XCTestCase {
 
     func testGetListOfAirportsWithLatAndLongAndRadius() throws {
         let expect = expectation(description: "listOfAirports")
-        testCase.getListOfAirportsFor(lat: 51.57285, long: -0.44161) { [unowned self] in
+        testCase.lat = "51.57285"
+        testCase.long = "-0.44161"
+        testCase.getListOfAirports() { [unowned self] in
             expect.fulfill()
             XCTAssertEqual(testCase.airports.count, 10)
         }
@@ -54,7 +56,9 @@ class AirportFinderViewModelMockedTests: XCTestCase {
         
         XCTAssertEqual(testCase.token, nil)
         let expect = expectation(description: "getAirports")
-        testCase.getListOfAirportsFor(lat: 12, long: 12) { [unowned self] in
+        testCase.lat = "51.57285"
+        testCase.long = "-0.44161"
+        testCase.getListOfAirports() { [unowned self] in
             XCTAssertNotNil(testCase.token)
             XCTAssertEqual(testCase.airports.count, 10)
             expect.fulfill()
@@ -69,7 +73,9 @@ class AirportFinderViewModelMockedTests: XCTestCase {
         XCTAssertNotNil(testCase.token)
         
         let expect = expectation(description: "getAirports")
-        testCase.getListOfAirportsFor(lat: 12, long: 12) { [unowned self] in
+        testCase.lat = "51.57285"
+        testCase.long = "-0.44161"
+        testCase.getListOfAirports() { [unowned self] in
             XCTAssertNotNil(testCase.token)
             XCTAssertEqual(testCase.airports.count, 10)
             expect.fulfill()

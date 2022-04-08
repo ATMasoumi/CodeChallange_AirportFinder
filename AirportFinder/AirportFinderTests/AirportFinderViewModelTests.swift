@@ -49,7 +49,9 @@ class AirportFinderViewModelTests: XCTestCase {
         
         XCTAssertEqual(testCase.token, nil)
         let expect = expectation(description: "getAirports")
-        testCase.getListOfAirportsFor(lat: 51.57285, long: -0.44161) { [unowned self] in
+        testCase.lat = "51.57285"
+        testCase.long = "-0.44161"
+        testCase.getListOfAirports() { [unowned self] in
             XCTAssertNotNil(testCase.token)
             XCTAssertEqual(testCase.airports.count, 10)
             expect.fulfill()

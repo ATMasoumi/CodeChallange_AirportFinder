@@ -48,8 +48,9 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
             let airportsData:AirportsData?
             do {
                 let airportsData = try JSONDecoder().decode(AirportsData.self, from: data)
-                completion(airportsData)
-                
+                DispatchQueue.main.async {
+                    completion(airportsData)
+                }
             } catch let error {
                 print(error)
             }
@@ -78,7 +79,9 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
                 return
             }
             let tokenContent = try? JSONDecoder().decode(TokenContent.self, from: data)
-            completion(tokenContent!)
+            DispatchQueue.main.async {
+                completion(tokenContent!)
+            }
         }.resume()
     }
 }

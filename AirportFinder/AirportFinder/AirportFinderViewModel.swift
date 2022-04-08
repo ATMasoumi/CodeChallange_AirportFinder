@@ -19,8 +19,8 @@ class AirportFinderViewModel:ObservableObject {
             return []
         }
     }
-    @Published var lat:Double? = nil
-    @Published var long:Double? = nil
+    @Published var lat:String = ""
+    @Published var long:String = ""
     let radius = 500
     let userDefaults:UserDefaults
     var token:String? {
@@ -44,16 +44,30 @@ class AirportFinderViewModel:ObservableObject {
         self.userDefaults = userDefaults
     }
     
-    func getListOfAirportsFor(lat: Double, long: Double, completion: @escaping () -> ()) {
+    
+    func getListOfAirports() {
+        guard let lat = Double(lat) else {
+            return
+        }
+        guard let long = Double(long) else {
+            return
+        }
+
         if token == nil {
             getToken { [unowned self] in
-                getAirports(lat: lat, long: long) {
-                    completion()
+                networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, token: token!) { airportsData in
+                    guard let airportsData = airportsData else {
+                        return
+                    }
+                    self.airportsData = airportsData
                 }
             } 
         }else {
-            getAirports(lat: lat, long: long) {
-                completion()
+            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, token: token!) { airportsData in
+                guard let airportsData = airportsData else {
+                    return
+                }
+                self.airportsData = airportsData
             }
         } 
     }
@@ -61,21 +75,6 @@ class AirportFinderViewModel:ObservableObject {
     func getToken(completion:@escaping() -> ()) {
         networkManger.getToken { [weak self] tokenContent in
             self?.token = tokenContent.accessToken
-            completion()
-        }
-    }
-    
-    func getAirports(lat: Double, long: Double, completion:@escaping() -> ()) {
-        guard let token = token else {
-            return
-        }
-
-
-        networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, token: token) { airportsData in
-            guard let airportsData = airportsData else {
-                return
-            }
-            self.airportsData = airportsData
             completion()
         }
     }

@@ -12,10 +12,9 @@ struct ListOfAirportsView: View {
     
     var body: some View {
         List{
-//            ForEach(viewModel.airports) { airport in
-//                AirportsCellView(for: airport)
-//            }
-            Text("")
+            ForEach(viewModel.airports) { airport in
+                AirportsCellView(for: airport)
+            }
             .listRowSeparator(.hidden, edges: .all)
         }
         .listStyle(.plain)

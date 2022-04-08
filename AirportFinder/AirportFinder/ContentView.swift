@@ -21,21 +21,23 @@ struct ContentView: View {
                 }
                 
                 VStack {
-                    
                     HStack{
                         Text("Lat")
-                        TextField("50.01", value: $viewModel.lat,formatter: viewModel.numberFormatter)
+//                        TextField("50.01", value: $viewModel.lat,formatter: viewModel.numberFormatter)
+                        TextField("12.33", text: $viewModel.lat)
                             .keyboardType(.decimalPad)
                     }.padding()
                     
                     HStack{
                         Text("long")
-                        TextField("12.3456", value: $viewModel.long,formatter: viewModel.numberFormatter)
+//                        TextField("12.3456", value: $viewModel.long,formatter: viewModel.numberFormatter)
+                        TextField("12.33", text: $viewModel.long)
                             .keyboardType(.decimalPad)
                     }.padding()
                     
                     Button{
-                        
+                        viewModel.getListOfAirports()
+                        DetailViewIsActive = true
                     }label: {
                         Text("Search")
                     }

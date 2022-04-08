@@ -70,8 +70,12 @@ class AirportFinderViewModel:ObservableObject {
             completion()
             return
         }
+        guard let token = token else {
+            return
+        }
 
-        networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance) { airports in
+
+        networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, token: token) { airports in
             self.airports = airports
             completion()
         }

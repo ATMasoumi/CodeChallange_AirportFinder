@@ -15,7 +15,7 @@ class AmadeusNetworkMock:AmadeusNetworkManagerProtocol {
         completion(tokenContent)
     }
     
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, completion: @escaping ([Airport]) -> ()) {
+    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion: @escaping ([Airport]) -> ()) {
         let data = getData(name: "MockAirportJson")
         if let listOfAirports = try? JSONDecoder().decode(ListOfAirports.self, from: data){
             completion(listOfAirports.data)

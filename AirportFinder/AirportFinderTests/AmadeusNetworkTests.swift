@@ -20,7 +20,7 @@ class AmadeusNetworkTests: XCTestCase {
 
     func testGetAirportsForLatAndLongAndRadius_IsNotNil() throws {
         let expect = expectation(description: "listOfAirports")
-        testCase.getListOfAirportsFor(lat: 51.57285, long: -0.44161, radius: 1000, pageLimit: 20, pageOffset: 0, sort: .relevance ){ airports in
+        testCase.getListOfAirportsFor(lat: 51.57285, long: -0.44161, radius: 1000, pageLimit: 20, pageOffset: 0, sort: .relevance,token: "28hajskhf32hhkjbw" ){ airports in
             expect.fulfill()
             XCTAssertEqual(airports.count, 10)
             XCTAssertEqual(airports.first?.name, "HEATHROW")

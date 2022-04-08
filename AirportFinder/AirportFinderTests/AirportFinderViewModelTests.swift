@@ -32,15 +32,18 @@ class AirportFinderViewModelTests: XCTestCase {
         XCTAssertEqual(token, nil)
     }
     
-    func testCaseTokenIsEmpty_getToken() {
+    func testCaseTokenIsEmpty_getToken_isNotEmpty() {
         let token = testCase.token
         XCTAssertEqual(token, nil)
         
+        let expect = expectation(description: "GetToken")
         testCase.getToken() { [weak self] in
+            expect.fulfill()
             XCTAssertNotNil(self?.testCase.token)
         }
-        
+        wait(for: [expect], timeout: 30)
     }
+
     
     func testGetAirports_tokenIsNil_GetToken() {
         
@@ -48,10 +51,10 @@ class AirportFinderViewModelTests: XCTestCase {
         let expect = expectation(description: "getAirports")
         testCase.getListOfAirportsFor(lat: 12, long: 12) { [unowned self] in
             XCTAssertNotNil(testCase.token)
-            XCTAssertEqual(testCase.airports.count, 10)
+            XCTAssertEqual(testCase.airports.count, 0)
             expect.fulfill()
         }
-        wait(for: [expect], timeout: 3)
+        wait(for: [expect], timeout: 30)
     }
     
     func testGetAirports_tokenIsNotNil_getAirports() {
@@ -63,7 +66,7 @@ class AirportFinderViewModelTests: XCTestCase {
         let expect = expectation(description: "getAirports")
         testCase.getListOfAirportsFor(lat: 12, long: 12) { [unowned self] in
             XCTAssertNotNil(testCase.token)
-            XCTAssertEqual(testCase.airports.count, 10)
+            XCTAssertEqual(testCase.airports.count, 0)
             expect.fulfill()
         }
         wait(for: [expect], timeout: 3)

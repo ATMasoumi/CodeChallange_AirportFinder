@@ -22,11 +22,10 @@ class AmadeusNetworkTests: XCTestCase {
         let expect = expectation(description: "listOfAirports")
         testCase.getListOfAirportsFor(lat: 51.57285, long: -0.44161, radius: 1000, pageLimit: 20, pageOffset: 0, sort: .relevance,token: "28hajskhf32hhkjbw" ){ airports in
             expect.fulfill()
-            XCTAssertEqual(airports.count, 10)
-            XCTAssertEqual(airports.first?.name, "HEATHROW")
+            XCTAssertEqual(airports?.meta.count, 32)
+            XCTAssertEqual(airports?.data.first?.name, "HEATHROW")
         }
         wait(for: [expect], timeout: 2)
-        
     }
 
 }

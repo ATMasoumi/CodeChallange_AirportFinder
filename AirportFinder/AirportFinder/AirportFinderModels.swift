@@ -14,21 +14,20 @@ import Foundation
 
 import Foundation
 
-typealias Airport = Datum
 // MARK: - ListOfAirports
-struct ListOfAirports: Codable {
+struct AirportsData: Codable {
     let meta: Meta
     let data: [Airport]
 }
 
 // MARK: - Datum
-struct Datum: Codable,Equatable,Identifiable {
+struct Airport: Codable,Equatable,Identifiable {
     
     var id : String {
         String(geoCode.latitude) + String(geoCode.longitude)
     }
     
-    static func == (lhs: Datum, rhs: Datum) -> Bool {
+    static func == (lhs: Airport, rhs: Airport) -> Bool {
         lhs.geoCode.latitude == rhs.geoCode.latitude && lhs.geoCode.longitude == rhs.geoCode.longitude
     }
     
@@ -81,7 +80,9 @@ struct Meta: Codable {
 
 // MARK: - Links
 struct Links: Codable {
-    let linksSelf, next, last: String
+    let linksSelf:String
+    let last: String?
+    let next:String?
 
     enum CodingKeys: String, CodingKey {
         case linksSelf = "self"

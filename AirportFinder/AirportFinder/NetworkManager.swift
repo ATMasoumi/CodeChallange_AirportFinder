@@ -16,21 +16,21 @@ enum AmadeusSort:String {
 }
 
 protocol AmadeusNetworkManagerProtocol {
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion:@escaping(_ airports:[Airport]) -> ())
+    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion:@escaping(_ airportsData:AirportsData?) -> ())
     func getToken(completion:@escaping(_ TokenContent:TokenContent) -> ())
 }
 
 class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
     
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion: @escaping ([Airport]) -> ()) {
+    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion: @escaping (_ airportsData:AirportsData?) -> ()) {
                
         var components = URLComponents()
             components.scheme = "https"
             components.host = "test.api.amadeus.com"
             components.path = "/v1/reference-data/locations/airports"
             components.queryItems = [
-                URLQueryItem(name: "latitude", value: "35.715298"),
-                URLQueryItem(name: "longitude", value: "51.404343"),
+                URLQueryItem(name: "latitude", value: "\(lat)"),
+                URLQueryItem(name: "longitude", value: "\(long)"),
 //                URLQueryItem(name: "radius", value: "100"),
 //                URLQueryItem(name: "page[limit]", value: "10"),
 //                URLQueryItem(name: "page[offset]", value: "0"),
@@ -45,9 +45,14 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
             guard let data = data else {
                 return
             }
-            let listOfAirports = try? JSONDecoder().decode(ListOfAirports.self, from: data)
-            completion([])
-            
+            let airportsData:AirportsData?
+            do {
+                let airportsData = try JSONDecoder().decode(AirportsData.self, from: data)
+                completion(airportsData)
+                
+            } catch let error {
+                print(error)
+            }
         }.resume()
         
         

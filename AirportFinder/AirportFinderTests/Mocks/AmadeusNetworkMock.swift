@@ -15,13 +15,12 @@ class AmadeusNetworkMock:AmadeusNetworkManagerProtocol {
         completion(tokenContent)
     }
     
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion: @escaping ([Airport]) -> ()) {
+    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, token: String, completion: @escaping (_ airportsData:AirportsData?) -> ()) {
+        
         let data = getData(name: "MockAirportJson")
-        if let listOfAirports = try? JSONDecoder().decode(ListOfAirports.self, from: data){
-            completion(listOfAirports.data)
-        }else{
-            completion([])
-        }
+        let listOfAirports = try? JSONDecoder().decode(AirportsData.self, from: data)
+        completion(listOfAirports)
+        
     }
     
     func getData(name: String, withExtension: String = "json") -> Data {

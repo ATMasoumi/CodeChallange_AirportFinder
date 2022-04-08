@@ -11,7 +11,14 @@ class AirportFinderViewModel:ObservableObject {
     
     let networkManger:AmadeusNetworkManagerProtocol
     
-    @Published var airports:[Airport] = []
+    @Published var airportsData: AirportsData? = nil
+    var airports:[Airport] {
+        if let airportsData = airportsData {
+            return airportsData.data
+        }else {
+            return []
+        }
+    }
     @Published var lat:Double? = nil
     @Published var long:Double? = nil
     let radius = 500
@@ -40,12 +47,12 @@ class AirportFinderViewModel:ObservableObject {
     func getListOfAirportsFor(lat: Double, long: Double, completion: @escaping () -> ()) {
         if token == nil {
             getToken { [unowned self] in
-                getAirports {
+                getAirports(lat: lat, long: long) {
                     completion()
                 }
             } 
         }else {
-            getAirports {
+            getAirports(lat: lat, long: long) {
                 completion()
             }
         } 
@@ -58,25 +65,17 @@ class AirportFinderViewModel:ObservableObject {
         }
     }
     
-    func getAirports(completion:@escaping() -> ()) {
-        lat = 12
-        long = 12
-        
-        guard let lat = lat else {
-            completion()
-            return
-        }
-        guard let long = long else {
-            completion()
-            return
-        }
+    func getAirports(lat: Double, long: Double, completion:@escaping() -> ()) {
         guard let token = token else {
             return
         }
 
 
-        networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, token: token) { airports in
-            self.airports = airports
+        networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, token: token) { airportsData in
+            guard let airportsData = airportsData else {
+                return
+            }
+            self.airportsData = airportsData
             completion()
         }
     }

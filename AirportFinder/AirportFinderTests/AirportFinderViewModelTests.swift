@@ -49,28 +49,14 @@ class AirportFinderViewModelTests: XCTestCase {
         
         XCTAssertEqual(testCase.token, nil)
         let expect = expectation(description: "getAirports")
-        testCase.getListOfAirportsFor(lat: 12, long: 12) { [unowned self] in
+        testCase.getListOfAirportsFor(lat: 51.57285, long: -0.44161) { [unowned self] in
             XCTAssertNotNil(testCase.token)
-            XCTAssertEqual(testCase.airports.count, 0)
+            XCTAssertEqual(testCase.airports.count, 10)
             expect.fulfill()
         }
         wait(for: [expect], timeout: 30)
     }
     
-    func testGetAirports_tokenIsNotNil_getAirports() {
-        
-        XCTAssertEqual(testCase.token, nil)
-        testCase.token = "234qwkjehk124b"
-        XCTAssertNotNil(testCase.token)
-        
-        let expect = expectation(description: "getAirports")
-        testCase.getListOfAirportsFor(lat: 12, long: 12) { [unowned self] in
-            XCTAssertNotNil(testCase.token)
-            XCTAssertEqual(testCase.airports.count, 0)
-            expect.fulfill()
-        }
-        wait(for: [expect], timeout: 3)
-    }
     
 
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class AirportFinderViewModel:ObservableObject {
     
@@ -19,6 +20,11 @@ class AirportFinderViewModel:ObservableObject {
     @Published var long:String = ""
     @Published var pageOffset = 0
     @Published var airports:[Airport] = []
+    @Published var sort:AmadeusSort = .relevance
+    
+    private var subscriptions = [AnyCancellable]()
+    
+    
     
     var tokenContent:TokenContent? {
         set {
@@ -39,7 +45,6 @@ class AirportFinderViewModel:ObservableObject {
             }else{
                 return nil
             }
-           
         }
     }
     let numberFormatter: NumberFormatter = {
@@ -49,11 +54,30 @@ class AirportFinderViewModel:ObservableObject {
         return numberFormatter
     }()
     
-    init(networkManger:AmadeusNetworkManagerProtocol,userDefaults:UserDefaults){
+    init(networkManger:AmadeusNetworkManagerProtocol, userDefaults:UserDefaults) {
         self.networkManger = networkManger
         self.userDefaults = userDefaults
+        $sort.dropFirst().sink { [unowned self] newSort in
+            cleanData()
+            guard let lat = Double(lat) else {
+                return
+            }
+            guard let long = Double(long) else {
+                return
+            }
+            guard let tokenContent = tokenContent else {
+                return
+            }
+            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: pageOffset, sort: newSort, tokenContent: tokenContent) { [unowned self] airportsData in
+                guard let airportsData = airportsData else {
+                    return
+                }
+                self.airportsData = airportsData
+                airports.append(contentsOf: airportsData.data)
+                
+            }
+        }.store(in: &subscriptions)
     }
-    
     
     func getListOfAirports(completion:@escaping() -> ()) {
         
@@ -65,7 +89,7 @@ class AirportFinderViewModel:ObservableObject {
         }
 
         if let tokenContent = tokenContent {
-            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: pageOffset, sort: .relevance, tokenContent: tokenContent) { [unowned self] airportsData in
+            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: pageOffset, sort: sort, tokenContent: tokenContent) { [unowned self] airportsData in
                 guard let airportsData = airportsData else {
                     return
                 }
@@ -77,7 +101,7 @@ class AirportFinderViewModel:ObservableObject {
             }
         } else {
             getToken { [unowned self] in
-                networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: pageOffset, sort: .relevance, tokenContent: tokenContent!) { airportsData in
+                networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: pageOffset, sort: sort, tokenContent: tokenContent!) { airportsData in
                     guard let airportsData = airportsData else {
                         return
                     }
@@ -95,6 +119,10 @@ class AirportFinderViewModel:ObservableObject {
             self?.tokenContent = tokenContent
             completion()
         }
+    }
+    func cleanData(){
+        airportsData = nil
+        airports = []
     }
     
 }

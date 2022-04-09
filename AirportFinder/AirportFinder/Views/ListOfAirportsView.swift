@@ -26,7 +26,46 @@ struct ListOfAirportsView: View {
             .listRowSeparator(.hidden, edges: .all)
         }
         .listStyle(.plain)
-        
+        .toolbar {
+            toolbarContent()
+        }
+        .onDisappear {
+            viewModel.cleanData()
+        }
+    }
+    func  toolbarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .principal) {
+            Menu(content: {
+                Button("Relevance") {
+                    viewModel.sort = .relevance
+                }
+                Button("Distance") {
+                    viewModel.sort = .distance
+                }
+                Button("Flights Score") {
+                    viewModel.sort = .flightsScore
+                }
+                Button("Travelers Score") {
+                    viewModel.sort = .travelersScore
+                }
+                
+            }, label: {
+                HStack {
+                    switch viewModel.sort{
+                    case .travelersScore:
+                        Text("Travelers Score")
+                    case .relevance:
+                        Text("Relevance")
+                    case .flightsScore:
+                        Text("Flights Score")
+                    case .distance:
+                        Text("Distance")
+                    }
+                    Image(systemName: "chevron.down")
+                        .font(.footnote)
+                }
+            })
+        }
     }
 }
 

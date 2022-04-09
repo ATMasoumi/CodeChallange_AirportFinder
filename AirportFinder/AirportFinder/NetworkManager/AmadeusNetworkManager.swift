@@ -34,7 +34,7 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
                 URLQueryItem(name: "radius", value: "500"),
                 URLQueryItem(name: "page[limit]", value: "20"),
                 URLQueryItem(name: "page[offset]", value: "\(pageOffset)"),
-//                URLQueryItem(name: "sort", value: AmadeusSort.relevance.rawValue)
+                URLQueryItem(name: "sort", value: sort.rawValue)
             ]
         
         var request = URLRequest(url: components.url!)

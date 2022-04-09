@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ListOfAirportsView: View {
     @ObservedObject var viewModel:AirportFinderViewModel
-    
     var body: some View {
         List{
             ForEach(viewModel.airports) { airport in
@@ -17,8 +16,10 @@ struct ListOfAirportsView: View {
                     .onAppear {
                         if airport == viewModel.airports.last {
                             print("perform network call")
+                            viewModel.indicatorPresented = true
                             viewModel.getListOfAirports {
                                 print("Got next page")
+                                viewModel.indicatorPresented = false
                             }
                             
                         }
@@ -33,7 +34,16 @@ struct ListOfAirportsView: View {
         .onDisappear {
             viewModel.cleanData()
         }
+        .onAppear {
+            viewModel.indicatorPresented = true
+            viewModel.getListOfAirports {
+                print("Got next page")
+                viewModel.indicatorPresented = false
+            }
+        }
     }
+    
+    @ToolbarContentBuilder
     func  toolbarContent() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
             Menu(content: {
@@ -66,6 +76,12 @@ struct ListOfAirportsView: View {
                         .font(.footnote)
                 }
             })
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            if viewModel.indicatorPresented {
+                ProgressView("")
+                    .labelsHidden()
+            }
         }
     }
 }

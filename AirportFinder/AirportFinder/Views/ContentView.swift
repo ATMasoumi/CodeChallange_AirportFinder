@@ -34,9 +34,6 @@ struct ContentView: View {
                     }.padding()
                     
                     Button{
-                        viewModel.getListOfAirports(){
-                            
-                        }
                         DetailViewIsActive = true
                     }label: {
                         Text("Search")

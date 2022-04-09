@@ -21,7 +21,8 @@ class AirportFinderViewModel:ObservableObject {
     @Published var pageOffset = 0
     @Published var airports:[Airport] = []
     @Published var sort:AmadeusSort = .relevance
-    
+    @Published var indicatorPresented:Bool = false
+
     private var subscriptions = [AnyCancellable]()
     
     
@@ -59,22 +60,11 @@ class AirportFinderViewModel:ObservableObject {
         self.userDefaults = userDefaults
         $sort.dropFirst().sink { [unowned self] newSort in
             cleanData()
-            guard let lat = Double(lat) else {
-                return
-            }
-            guard let long = Double(long) else {
-                return
-            }
-            guard let tokenContent = tokenContent else {
-                return
-            }
-            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: pageOffset, sort: newSort, tokenContent: tokenContent) { [unowned self] airportsData in
-                guard let airportsData = airportsData else {
-                    return
-                }
-                self.airportsData = airportsData
-                airports.append(contentsOf: airportsData.data)
-                
+            
+            indicatorPresented = true
+            getListOfAirports {
+                print("Got next page")
+                indicatorPresented = false
             }
         }.store(in: &subscriptions)
     }

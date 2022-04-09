@@ -20,6 +20,7 @@ struct ListOfAirportsView: View {
                             viewModel.getListOfAirports {
                                 print("Got next page")
                             }
+                            
                         }
                     }
             }

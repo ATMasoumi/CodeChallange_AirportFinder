@@ -123,6 +123,7 @@ class AirportFinderViewModel:ObservableObject {
     func cleanData(){
         airportsData = nil
         airports = []
+        pageOffset = 0
     }
     
 }

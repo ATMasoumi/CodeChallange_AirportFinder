@@ -15,8 +15,13 @@ struct AirportsCellView: View {
     var body: some View {
         VStack (spacing:15){
             HStack{
-                Text(airport.name).bold()
-                Text(airport.address.cityName).bold()
+                Text(airport.name)
+                    .bold()
+                    .lineLimit(1)
+                Text(airport.address.cityName)
+                    .font(.caption)
+                    .bold()
+                    .lineLimit(1)
                 Spacer()
                 Text("\(airport.distance.value) \(airport.distance.unit)")
             }

@@ -16,8 +16,8 @@ class AirportFinderViewModel:ObservableObject {
     
     
     @Published var airportsData: AirportsData? = nil
-    @Published var lat:String = ""
-    @Published var long:String = ""
+    @Published var lat:String = "51.57285"
+    @Published var long:String = "-0.44161"
     @Published var pageOffset = 0
     @Published var airports:[Airport] = []
     @Published var sort:AmadeusSort = .relevance

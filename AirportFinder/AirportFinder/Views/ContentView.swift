@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct ContentView: View {
     @StateObject var viewModel = AirportFinderViewModel(networkManger: AmadeusNetworkManager(), userDefaults: UserDefaults())
@@ -15,26 +16,47 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 
-                Color(uiColor: UIColor.systemGroupedBackground).ignoresSafeArea()
-                
                 NavigationLink("", isActive: $DetailViewIsActive) {
                     ListOfAirportsView(viewModel: viewModel)
                 }
                 
                 VStack {
+                    HStack{
+                        Text("Find Airports by Coordinates")
+                            .padding()
+                        Spacer()
+                    }
+                    Spacer()
+                    LottieView(name: "drop-off-pin", loopMode: .loop)
+                        .frame(width: 100, height: 100)
                     HStack {
-                        VStack(alignment:.leading){
+                        VStack(alignment:.center){
                             Text("Lat")
                             TextField("51.57285", text: $viewModel.lat)
                                 .keyboardType(.decimalPad)
+                                .padding(.horizontal)
+                                .padding(.vertical,5)
+                                .background{
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .opacity(0.1)
+                                }
                         }.padding()
                         
-                        VStack(alignment:.leading){
+                        VStack(alignment:.center){
                             Text("long")
                             TextField("-0.44161", text: $viewModel.long)
                                 .keyboardType(.decimalPad)
+                                .padding(.horizontal)
+                                .padding(.vertical,5)
+                                .background{
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .opacity(0.1)
+                                }
                         }.padding()
                     }.padding()
+                    
+                    Spacer()
+                    
                     Button{
                         guard viewModel.isEligibleForPresent else {
                             alertIsActive = true
@@ -42,8 +64,15 @@ struct ContentView: View {
                         }
                         DetailViewIsActive = true
                     }label: {
-                        Text("Search")
+                        HStack{
+                            Spacer()
+                            Text("Search")
+                            Spacer()
+                        }
                     }
+                    .padding()
+                    .padding(.bottom)
+                    .buttonStyle(.borderedProminent)
                 }.navigationTitle("Airport Finder")
             }
             .alert("Empty Fileds", isPresented: $alertIsActive) {

@@ -41,6 +41,7 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
         request.addValue("Bearer \(tokenContent.accessToken)", forHTTPHeaderField:"authorization")
         
         URLSession.shared.dataTask(with: request) { data, response, error in
+            
             guard let data = data else {
                 return
             }

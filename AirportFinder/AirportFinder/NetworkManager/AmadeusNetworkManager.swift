@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Amadeus
 
 enum AmadeusSort:String {
     case relevance = "relevance"

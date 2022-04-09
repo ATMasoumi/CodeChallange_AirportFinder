@@ -26,7 +26,11 @@ class AirportFinderViewModel:ObservableObject {
     private var subscriptions = [AnyCancellable]()
     
     
-    
+    var isEligibleForPresent:Bool {
+        guard !lat.isEmpty else { return false }
+        guard !long.isEmpty else { return false }
+        return true
+    }
     var tokenContent:TokenContent? {
         set {
             guard let newValue = newValue else { return }

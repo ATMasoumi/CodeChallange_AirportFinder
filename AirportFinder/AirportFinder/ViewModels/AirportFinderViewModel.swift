@@ -13,9 +13,12 @@ class AirportFinderViewModel:ObservableObject {
     let radius = 500
     let userDefaults:UserDefaults
     
+    
     @Published var airportsData: AirportsData? = nil
     @Published var lat:String = ""
     @Published var long:String = ""
+    @Published var pageOffset = 0
+    @Published var airports:[Airport] = []
     
     var tokenContent:TokenContent? {
         set {
@@ -39,13 +42,6 @@ class AirportFinderViewModel:ObservableObject {
            
         }
     }
-    var airports:[Airport] {
-        if let airportsData = airportsData {
-            return airportsData.data
-        }else {
-            return []
-        }
-    }
     let numberFormatter: NumberFormatter = {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -60,6 +56,7 @@ class AirportFinderViewModel:ObservableObject {
     
     
     func getListOfAirports(completion:@escaping() -> ()) {
+        
         guard let lat = Double(lat) else {
             return
         }
@@ -68,20 +65,25 @@ class AirportFinderViewModel:ObservableObject {
         }
 
         if let tokenContent = tokenContent {
-            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, tokenContent: tokenContent) { airportsData in
+            networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: pageOffset, sort: .relevance, tokenContent: tokenContent) { [unowned self] airportsData in
                 guard let airportsData = airportsData else {
                     return
                 }
                 self.airportsData = airportsData
+                airports.append(contentsOf: airportsData.data)
+                pageOffset += 1
                 completion()
+                
             }
         } else {
             getToken { [unowned self] in
-                networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: 0, sort: .relevance, tokenContent: tokenContent!) { airportsData in
+                networkManger.getListOfAirportsFor(lat: lat, long: long, radius: radius,pageLimit: 20, pageOffset: pageOffset, sort: .relevance, tokenContent: tokenContent!) { airportsData in
                     guard let airportsData = airportsData else {
                         return
                     }
                     self.airportsData = airportsData
+                    self.airports.append(contentsOf: airportsData.data)
+                    pageOffset += 1
                     completion()
                 }
             }

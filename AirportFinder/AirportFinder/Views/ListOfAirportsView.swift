@@ -14,15 +14,19 @@ struct ListOfAirportsView: View {
         List{
             ForEach(viewModel.airports) { airport in
                 AirportsCellView(for: airport)
+                    .onAppear {
+                        if airport == viewModel.airports.last {
+                            print("perform network call")
+                            viewModel.getListOfAirports {
+                                print("Got next page")
+                            }
+                        }
+                    }
             }
             .listRowSeparator(.hidden, edges: .all)
         }
         .listStyle(.plain)
-        .onAppear {
-//            viewModel.getListOfAirportsFor(lat: 1, long: 1) {
-//                
-//            }
-        }
+        
     }
 }
 

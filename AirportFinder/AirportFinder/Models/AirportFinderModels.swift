@@ -17,7 +17,7 @@ import Foundation
 // MARK: - ListOfAirports
 struct AirportsData: Codable {
     let meta: Meta
-    let data: [Airport]
+    var data: [Airport]
 }
 
 // MARK: - Datum

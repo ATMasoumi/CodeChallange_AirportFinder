@@ -31,9 +31,9 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
             components.queryItems = [
                 URLQueryItem(name: "latitude", value: "\(lat)"),
                 URLQueryItem(name: "longitude", value: "\(long)"),
-//                URLQueryItem(name: "radius", value: "100"),
+                URLQueryItem(name: "radius", value: "500"),
                 URLQueryItem(name: "page[limit]", value: "20"),
-//                URLQueryItem(name: "page[offset]", value: "0"),
+                URLQueryItem(name: "page[offset]", value: "\(pageOffset)"),
 //                URLQueryItem(name: "sort", value: AmadeusSort.relevance.rawValue)
             ]
         
@@ -45,7 +45,6 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
             guard let data = data else {
                 return
             }
-            let airportsData:AirportsData?
             do {
                 let airportsData = try JSONDecoder().decode(AirportsData.self, from: data)
                 DispatchQueue.main.async {

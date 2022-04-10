@@ -12,6 +12,7 @@ struct ContentView: View {
     @StateObject var viewModel = AirportFinderViewModel(networkManger: AmadeusNetworkManager(), userDefaults: UserDefaults())
     @State var DetailViewIsActive = false
     @State var alertIsActive = false
+    @State var isScaled = false
     var body: some View {
         NavigationView {
             ZStack {
@@ -27,8 +28,13 @@ struct ContentView: View {
                         Spacer()
                     }
                     Spacer()
-                    LottieView(name: "drop-off-pin", loopMode: .loop)
-                        .frame(width: 100, height: 100)
+                    PinView(isScaled: $isScaled)
+                        .frame(width: 80, height: 60, alignment: .center)
+                            .animation(.none, value: isScaled)
+                        .onAppear {
+                            isScaled.toggle()
+                        }
+                    Spacer()
                     HStack {
                         VStack(alignment:.center){
                             Text("Lat")
@@ -54,8 +60,7 @@ struct ContentView: View {
                                 }
                         }.padding()
                     }.padding()
-                    
-                    Spacer()
+//                    Spacer()
                     
                     Button{
                         guard viewModel.isEligibleForPresent else {

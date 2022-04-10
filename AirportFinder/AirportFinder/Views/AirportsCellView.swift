@@ -30,7 +30,7 @@ struct AirportsCellView: View {
                 Spacer()
                 Text(airport.timeZoneOffset)
             }
-        }
+        }.foregroundColor(.black)
         .padding()
         
         .background {

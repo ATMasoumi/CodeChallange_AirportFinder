@@ -10,25 +10,31 @@ import SwiftUI
 struct ListOfAirportsView: View {
     @ObservedObject var viewModel:AirportFinderViewModel
     var body: some View {
-        List{
-            ForEach(viewModel.airports) { airport in
-                AirportsCellView(for: airport)
-                    .onAppear {
-                        if airport == viewModel.airports.last {
-                            print("perform network call")
-                            viewModel.indicatorPresented = true
-                            viewModel.getListOfAirports {
-                                print("Got next page")
-                                viewModel.indicatorPresented = false
+        VStack{
+            if viewModel.airports.isEmpty {
+                Text("There is no airport to show")
+            } else {
+                List{
+                    ForEach(viewModel.airports) { airport in
+                        AirportsCellView(for: airport)
+                            .onAppear {
+                                if airport == viewModel.airports.last {
+                                    print("perform network call")
+                                    viewModel.indicatorPresented = true
+                                    viewModel.getListOfAirports {
+                                        print("Got next page")
+                                        viewModel.indicatorPresented = false
+                                    }
+                                    
+                                }
                             }
-                            
-                        }
                     }
+                    .listRowSeparator(.hidden, edges: .all)
+                }
+                .listStyle(.plain)
+
             }
-            .listRowSeparator(.hidden, edges: .all)
-        }
-        .listStyle(.plain)
-        .toolbar {
+        }        .toolbar {
             toolbarContent()
         }
         .alert(isPresented: $viewModel.showErrorAlert) {

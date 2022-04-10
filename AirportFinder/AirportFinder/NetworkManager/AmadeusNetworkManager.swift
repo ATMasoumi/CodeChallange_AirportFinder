@@ -16,7 +16,7 @@ enum AmadeusSort:String {
 
 protocol AmadeusNetworkManagerProtocol {
     func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, tokenContent: TokenContent, completion:@escaping(_ airportsData:AirportsData?) -> ())
-    func getToken(completion:@escaping(_ TokenContent:TokenContent) -> ())
+    func getToken(completion:@escaping(Result<TokenContent, Error>) -> ())
 }
 
 class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
@@ -58,7 +58,7 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
         
     }
     
-    func getToken(completion:@escaping(_ TokenContent:TokenContent) -> ()) {
+    func getToken(completion:@escaping(Result<TokenContent, Error>) -> ()) {
         
         let url = URL(string: "https://test.api.amadeus.com/v1/security/oauth2/token")!
         
@@ -74,12 +74,18 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
         request.httpBody = parameters.percentEncoded()
         
         URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
+
             guard let data = data else {
                 return
             }
             let tokenContent = try? JSONDecoder().decode(TokenContent.self, from: data)
             DispatchQueue.main.async {
-                completion(tokenContent!)
+                completion(.success(tokenContent!))
             }
         }.resume()
     }

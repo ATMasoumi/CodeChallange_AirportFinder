@@ -23,6 +23,9 @@ class AirportFinderViewModel:ObservableObject {
     @Published var sort:AmadeusSort = .relevance
     @Published var indicatorPresented:Bool = false
 
+    @Published var showErrorAlert = false
+    @Published var errorMessage = "Cannot process numbers greater than 5."
+    
     private var subscriptions = [AnyCancellable]()
     
     
@@ -33,23 +36,10 @@ class AirportFinderViewModel:ObservableObject {
     }
     var tokenContent:TokenContent? {
         set {
-            guard let newValue = newValue else { return }
-            let tokenData = try? JSONEncoder().encode(newValue)
-            userDefaults.set(tokenData, forKey: "token")
-            userDefaults.set(Date().timeIntervalSince1970+Double(newValue.expiresIn),forKey: "tokenDate")
+            saveToken(newValue)
         }
         get {
-            if let data = userDefaults.value(forKey:"token") as? Data {
-                let tokenContent = try? JSONDecoder().decode(TokenContent.self, from: data)
-                let date = Date(timeIntervalSince1970: userDefaults.double(forKey: "tokenDate"))
-                if date > Date() {
-                    return tokenContent
-                }else{
-                    return nil
-                }
-            }else{
-                return nil
-            }
+            retrieveToken()
         }
     }
     let numberFormatter: NumberFormatter = {
@@ -71,6 +61,27 @@ class AirportFinderViewModel:ObservableObject {
                 indicatorPresented = false
             }
         }.store(in: &subscriptions)
+    }
+   
+    func saveToken(_ tokenContent:TokenContent?) {
+        guard let tokenContent = tokenContent else { return }
+        let tokenData = try? JSONEncoder().encode(tokenContent)
+        userDefaults.set(tokenData, forKey: "token")
+        userDefaults.set(Date().timeIntervalSince1970+Double(tokenContent.expiresIn),forKey: "tokenDate")
+    }
+   
+    func retrieveToken() -> TokenContent? {
+        if let data = userDefaults.value(forKey:"token") as? Data {
+            let tokenContent = try? JSONDecoder().decode(TokenContent.self, from: data)
+            let date = Date(timeIntervalSince1970: userDefaults.double(forKey: "tokenDate"))
+            if date > Date() {
+                return tokenContent
+            }else{
+                return nil
+            }
+        }else{
+            return nil
+        }
     }
     
     func getListOfAirports(completion:@escaping() -> ()) {
@@ -109,9 +120,17 @@ class AirportFinderViewModel:ObservableObject {
     }
     
     func getToken(completion:@escaping() -> ()) {
-        networkManger.getToken { [weak self] tokenContent in
-            self?.tokenContent = tokenContent
-            completion()
+        
+        networkManger.getToken { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                self.errorMessage = error.localizedDescription
+                self.showErrorAlert = true
+                self.indicatorPresented = false 
+            case .success(let tokenContent):
+                self.tokenContent = tokenContent
+            }
         }
     }
     func cleanData(){

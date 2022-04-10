@@ -31,6 +31,9 @@ struct ListOfAirportsView: View {
         .toolbar {
             toolbarContent()
         }
+        .alert(isPresented: $viewModel.showErrorAlert) {
+            Alert(title: Text("Error"), message: Text(viewModel.errorMessage))
+        }
         .onDisappear {
             viewModel.cleanData()
         }

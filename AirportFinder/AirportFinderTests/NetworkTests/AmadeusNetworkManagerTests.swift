@@ -29,9 +29,14 @@ class AmadeusNetworkManagerTests: XCTestCase {
     
     func testGetToken() {
         let expectation = expectation(description: "GetToken")
-        testCase.getToken { tokenContent in
+        testCase.getToken { result in
             expectation.fulfill()
-            XCTAssertEqual(tokenContent.username, "torabi.dsd@gmail.com")
+            switch result {
+            case .success(let tokenContent):
+                XCTAssertEqual(tokenContent.username, "torabi.dsd@gmail.com")
+            case .failure(let error):
+               print(error)
+            }
         }
         wait(for: [expectation], timeout: 30)
         

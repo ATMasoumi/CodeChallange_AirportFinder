@@ -30,6 +30,8 @@
 		189A21192801F8B500F8EBDB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 189A21182801F8B500F8EBDB /* Lottie */; };
 		189A211B2801FA7600F8EBDB /* drop-off-pin.json in Resources */ = {isa = PBXBuildFile; fileRef = 189A211A2801FA7600F8EBDB /* drop-off-pin.json */; };
 		189A211E2801FB4400F8EBDB /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189A211D2801FB4400F8EBDB /* LottieView.swift */; };
+		189A21212802CEFB00F8EBDB /* SecureStore in Frameworks */ = {isa = PBXBuildFile; productRef = 189A21202802CEFB00F8EBDB /* SecureStore */; };
+		189A21232802D4ED00F8EBDB /* KeychainAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189A21222802D4ED00F8EBDB /* KeychainAccess.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 		188B8E2427FCD709002A5F33 /* AmadeusNetworkMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmadeusNetworkMock.swift; sourceTree = "<group>"; };
 		189A211A2801FA7600F8EBDB /* drop-off-pin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "drop-off-pin.json"; sourceTree = "<group>"; };
 		189A211D2801FB4400F8EBDB /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		189A21222802D4ED00F8EBDB /* KeychainAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccess.swift; sourceTree = "<group>"; };
+		189A21242802EC2B00F8EBDB /* AirportFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AirportFinder.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				189A21192801F8B500F8EBDB /* Lottie in Frameworks */,
+				189A21212802CEFB00F8EBDB /* SecureStore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				188B8E1B27FCC8E5002A5F33 /* AirportFinderViewModel.swift */,
+				189A21222802D4ED00F8EBDB /* KeychainAccess.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -187,6 +193,7 @@
 		188B8DF027FCC7C8002A5F33 /* AirportFinder */ = {
 			isa = PBXGroup;
 			children = (
+				189A21242802EC2B00F8EBDB /* AirportFinder.entitlements */,
 				188B8DF127FCC7C8002A5F33 /* AirportFinderApp.swift */,
 				1832B60928006E9B00DF28AB /* Models */,
 				1832B60728006E8C00DF28AB /* ViewModels */,
@@ -262,6 +269,7 @@
 			name = AirportFinder;
 			packageProductDependencies = (
 				189A21182801F8B500F8EBDB /* Lottie */,
+				189A21202802CEFB00F8EBDB /* SecureStore */,
 			);
 			productName = AirportFinder;
 			productReference = 188B8DEE27FCC7C8002A5F33 /* AirportFinder.app */;
@@ -337,6 +345,7 @@
 			mainGroup = 188B8DE527FCC7C8002A5F33;
 			packageReferences = (
 				189A21172801F8B500F8EBDB /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				189A211F2802CEFB00F8EBDB /* XCRemoteSwiftPackageReference "SecureStore" */,
 			);
 			productRefGroup = 188B8DEF27FCC7C8002A5F33 /* Products */;
 			projectDirPath = "";
@@ -384,6 +393,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1843132827FF225100DA082A /* AmadeusNetworkMock.swift in Sources */,
+				189A21232802D4ED00F8EBDB /* KeychainAccess.swift in Sources */,
 				181160EA27FF564E00AE3EB1 /* Dictionary.swift in Sources */,
 				188B8E1C27FCC8E5002A5F33 /* AirportFinderViewModel.swift in Sources */,
 				188B8E1E27FCC8FA002A5F33 /* AirportFinderModels.swift in Sources */,
@@ -554,6 +564,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AirportFinder/AirportFinder.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AirportFinder/Preview Content\"";
@@ -583,6 +594,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AirportFinder/AirportFinder.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AirportFinder/Preview Content\"";
@@ -733,6 +745,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		189A211F2802CEFB00F8EBDB /* XCRemoteSwiftPackageReference "SecureStore" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ATMasoumi/SecureStore.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -740,6 +760,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 189A21172801F8B500F8EBDB /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		189A21202802CEFB00F8EBDB /* SecureStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 189A211F2802CEFB00F8EBDB /* XCRemoteSwiftPackageReference "SecureStore" */;
+			productName = SecureStore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

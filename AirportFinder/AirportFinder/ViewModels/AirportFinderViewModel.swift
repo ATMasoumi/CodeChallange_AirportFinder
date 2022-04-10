@@ -7,6 +7,8 @@
 
 import Foundation
 import Combine
+import SecureStore
+
 
 class AirportFinderViewModel:ObservableObject {
     
@@ -36,10 +38,11 @@ class AirportFinderViewModel:ObservableObject {
     }
     var tokenContent:TokenContent? {
         set {
-            saveToken(newValue)
+            guard let newValue = newValue else { return }
+            saveTokenOnKeychain(newValue)
         }
         get {
-            retrieveToken()
+            getTokenFromKeyChain()
         }
     }
     let numberFormatter: NumberFormatter = {
@@ -52,6 +55,7 @@ class AirportFinderViewModel:ObservableObject {
     init(networkManger:AmadeusNetworkManagerProtocol, userDefaults:UserDefaults) {
         self.networkManger = networkManger
         self.userDefaults = userDefaults
+        
         $sort.dropFirst().sink { [unowned self] newSort in
             cleanData()
             
@@ -63,25 +67,33 @@ class AirportFinderViewModel:ObservableObject {
         }.store(in: &subscriptions)
     }
    
-    func saveToken(_ tokenContent:TokenContent?) {
-        guard let tokenContent = tokenContent else { return }
-        let tokenData = try? JSONEncoder().encode(tokenContent)
-        userDefaults.set(tokenData, forKey: "token")
-        userDefaults.set(Date().timeIntervalSince1970+Double(tokenContent.expiresIn),forKey: "tokenDate")
+    func saveTokenOnKeychain(_ tokenContent:TokenContent) {
+       
+        saveTokenDate(tokenContent)
+        let data = try? JSONEncoder().encode(tokenContent)
+        guard let data = data else { return }
+        let status = KeyChain.save(key: "Token", data: data)
+        
+        print(status)
+        
     }
-   
-    func retrieveToken() -> TokenContent? {
-        if let data = userDefaults.value(forKey:"token") as? Data {
-            let tokenContent = try? JSONDecoder().decode(TokenContent.self, from: data)
-            let date = Date(timeIntervalSince1970: userDefaults.double(forKey: "tokenDate"))
-            if date > Date() {
-                return tokenContent
-            }else{
-                return nil
-            }
+    func getTokenFromKeyChain() -> TokenContent? {
+        let data = KeyChain.load(key: "Token")
+        guard let data = data else { return nil }
+        let tokenContent = try? JSONDecoder().decode(TokenContent.self, from: data)
+        guard let tokenDate = getTokenDate() else { return nil }
+        if tokenDate > Date() {
+            return tokenContent
         }else{
             return nil
         }
+    }
+    func saveTokenDate(_ tokenContent:TokenContent) {
+        userDefaults.set(Date().timeIntervalSince1970+Double(tokenContent.expiresIn),forKey: "tokenDate")
+    }
+    func getTokenDate() -> Date? {
+        let date = Date(timeIntervalSince1970: userDefaults.double(forKey: "tokenDate"))
+        return date
     }
     
     func getListOfAirports(completion:@escaping() -> ()) {
@@ -127,9 +139,10 @@ class AirportFinderViewModel:ObservableObject {
             case .failure(let error):
                 self.errorMessage = error.localizedDescription
                 self.showErrorAlert = true
-                self.indicatorPresented = false 
+                self.indicatorPresented = false
             case .success(let tokenContent):
                 self.tokenContent = tokenContent
+                completion()
             }
         }
     }

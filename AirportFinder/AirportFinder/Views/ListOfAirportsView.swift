@@ -12,26 +12,9 @@ struct ListOfAirportsView: View {
     var body: some View {
         VStack{
             if viewModel.airports.isEmpty {
-                Text("There is no airport to show")
+              emptyView
             } else {
-                List{
-                    ForEach(viewModel.airports) { airport in
-                        AirportsCellView(for: airport)
-                            .onAppear {
-                                if airport == viewModel.airports.last {
-                                    print("perform network call")
-                                    viewModel.indicatorPresented = true
-                                    viewModel.getListOfAirports {
-                                        print("Got next page")
-                                        viewModel.indicatorPresented = false
-                                    }
-                                    
-                                }
-                            }
-                    }
-                    .listRowSeparator(.hidden, edges: .all)
-                }
-                .listStyle(.plain)
+                listView
 
             }
         }        .toolbar {
@@ -50,6 +33,35 @@ struct ListOfAirportsView: View {
                 viewModel.indicatorPresented = false
             }
         }
+    }
+    
+    var emptyView: some View {
+        VStack {
+            LottieView(name: "empty-list", loopMode: .loop)
+                .frame(width: 300, height: 300, alignment: .center)
+            Text("There is no airport to show")
+        }
+    }
+    
+    var listView: some View {
+        List{
+            ForEach(viewModel.airports) { airport in
+                AirportsCellView(for: airport)
+                    .onAppear {
+                        if airport == viewModel.airports.last {
+                            print("perform network call")
+                            viewModel.indicatorPresented = true
+                            viewModel.getListOfAirports {
+                                print("Got next page")
+                                viewModel.indicatorPresented = false
+                            }
+                            
+                        }
+                    }
+            }
+            .listRowSeparator(.hidden, edges: .all)
+        }
+        .listStyle(.plain)
     }
     
     @ToolbarContentBuilder

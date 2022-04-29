@@ -8,7 +8,7 @@
 import Foundation
 @testable import AirportFinder
 
-class AmadeusNetworkMock:AmadeusNetworkManagerProtocol {
+class AmadeusNetworkMock: AmadeusNetworkManagerProtocol {
     func getToken(completion: @escaping (Result<TokenContent, Error>) -> Void) {
         let tokenContent = TokenContent(type: "amadeusOAuth2Token",
                                         username: "torabi.dsd@gmail.com",
@@ -33,10 +33,12 @@ class AmadeusNetworkMock:AmadeusNetworkManagerProtocol {
         let listOfAirports = try? JSONDecoder().decode(AirportsData.self, from: data)
         completion(listOfAirports)
     }
+    // swiftlint: disable force_try
     func getData(name: String, withExtension: String = "json") -> Data {
         let bundle = Bundle(for: type(of: self))
         let fileUrl = bundle.url(forResource: name, withExtension: withExtension)
         let data = try! Data(contentsOf: fileUrl!)
         return data
     }
+    // swiftlint: enable force_try
 }

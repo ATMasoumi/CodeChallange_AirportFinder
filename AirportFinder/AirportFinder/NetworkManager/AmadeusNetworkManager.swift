@@ -81,7 +81,6 @@ class AmadeusNetworkManager: AmadeusNetworkManagerProtocol {
                     completion(.failure(error))
                 }
             }
-
             guard let data = data else {
                 return
             }

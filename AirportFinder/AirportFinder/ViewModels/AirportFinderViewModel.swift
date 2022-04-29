@@ -44,7 +44,7 @@ class AirportFinderViewModel: ObservableObject {
     }()
     init(networkManger: AmadeusNetworkManagerProtocol, userDefaults: UserDefaults) {
         self.networkManger = networkManger
-        self.userDefaults = userDefaults 
+        self.userDefaults = userDefaults
         $sort.dropFirst().sink { [unowned self] _ in
             cleanData()
             indicatorPresented = true

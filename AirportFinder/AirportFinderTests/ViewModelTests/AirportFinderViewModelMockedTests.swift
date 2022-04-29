@@ -38,7 +38,6 @@ class AirportFinderViewModelMockedTests: XCTestCase {
     func testCaseTokenIsEmpty_getToken() {
         let token = testCase.tokenContent
         XCTAssertEqual(token, nil)
-        
         testCase.getToken { [weak self] in
             XCTAssertNotNil(self?.testCase.tokenContent)
         }

@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct ListOfAirportsView: View {
-    @ObservedObject var viewModel:AirportFinderViewModel
+    @ObservedObject var viewModel: AirportFinderViewModel
     var body: some View {
-        VStack{
+        VStack {
             if viewModel.airports.isEmpty {
-              emptyView
+                emptyView
             } else {
                 listView
-
             }
         }        .toolbar {
             toolbarContent()
@@ -34,7 +33,6 @@ struct ListOfAirportsView: View {
             }
         }
     }
-    
     var emptyView: some View {
         VStack {
             LottieView(name: "empty-list", loopMode: .loop)
@@ -42,9 +40,8 @@ struct ListOfAirportsView: View {
             Text("There is no airport to show")
         }
     }
-    
     var listView: some View {
-        List{
+        List {
             ForEach(viewModel.airports) { airport in
                 AirportsCellView(for: airport)
                     .onAppear {
@@ -55,7 +52,6 @@ struct ListOfAirportsView: View {
                                 print("Got next page")
                                 viewModel.indicatorPresented = false
                             }
-                            
                         }
                     }
             }
@@ -63,7 +59,6 @@ struct ListOfAirportsView: View {
         }
         .listStyle(.plain)
     }
-    
     @ToolbarContentBuilder
     func  toolbarContent() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
@@ -80,10 +75,9 @@ struct ListOfAirportsView: View {
                 Button("Travelers Score") {
                     viewModel.sort = .travelersScore
                 }
-                
             }, label: {
                 HStack {
-                    switch viewModel.sort{
+                    switch viewModel.sort {
                     case .travelersScore:
                         Text("Travelers Score")
                     case .relevance:
@@ -109,6 +103,8 @@ struct ListOfAirportsView: View {
 
 struct ListOfAirportsView_Previews: PreviewProvider {
     static var previews: some View {
-        ListOfAirportsView(viewModel: AirportFinderViewModel(networkManger: AmadeusNetworkMock(), userDefaults: UserDefaults()))
+        ListOfAirportsView(viewModel: AirportFinderViewModel(networkManger:
+                                                                AmadeusNetworkMock(),
+                                                             userDefaults: UserDefaults()))
     }
 }

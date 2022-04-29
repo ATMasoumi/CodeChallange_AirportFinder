@@ -12,19 +12,16 @@ struct LottieView: UIViewRepresentable {
         Coordinator(self)
     }
     var name: String!
-    
     var animationView = AnimationView()
-    var loopMode:LottieLoopMode = .loop
+    var loopMode: LottieLoopMode = .loop
 
     class Coordinator: NSObject {
         var parent: LottieView
-    
         init(_ animationView: LottieView) {
             self.parent = animationView
             super.init()
         }
     }
-    
     func makeUIView(context: UIViewRepresentableContext<LottieView>) -> UIView {
         let view = UIView()
 
@@ -46,7 +43,5 @@ struct LottieView: UIViewRepresentable {
 
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<LottieView>) {
         animationView.play()
-        
-        
     }
 }

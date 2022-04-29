@@ -9,20 +9,20 @@ import SwiftUI
 import Lottie
 
 struct ContentView: View {
-    @StateObject var viewModel = AirportFinderViewModel(networkManger: AmadeusNetworkManager(), userDefaults: UserDefaults())
-    @State var DetailViewIsActive = false
+    @StateObject var viewModel = AirportFinderViewModel(networkManger:
+                                            AmadeusNetworkManager(),
+                                           userDefaults: UserDefaults())
+    @State var detailViewIsActive = false
     @State var alertIsActive = false
     @State var isScaled = false
     var body: some View {
         NavigationView {
             ZStack {
-                
-                NavigationLink("", isActive: $DetailViewIsActive) {
+                NavigationLink("", isActive: $detailViewIsActive) {
                     ListOfAirportsView(viewModel: viewModel)
                 }
-                
                 VStack {
-                    HStack{
+                    HStack {
                         Text("Find Airports by Coordinates")
                             .padding()
                         Spacer()
@@ -36,40 +36,37 @@ struct ContentView: View {
                         }
                     Spacer()
                     HStack {
-                        VStack(alignment:.center){
+                        VStack(alignment: .center) {
                             Text("Lat")
                             TextField("51.57285", text: $viewModel.lat)
                                 .keyboardType(.decimalPad)
                                 .padding(.horizontal)
-                                .padding(.vertical,5)
-                                .background{
+                                .padding(.vertical, 5)
+                                .background {
                                     RoundedRectangle(cornerRadius: 10)
                                         .opacity(0.1)
                                 }
                         }.padding()
-                        
-                        VStack(alignment:.center){
+                        VStack(alignment: .center) {
                             Text("long")
                             TextField("-0.44161", text: $viewModel.long)
                                 .keyboardType(.decimalPad)
                                 .padding(.horizontal)
-                                .padding(.vertical,5)
-                                .background{
+                                .padding(.vertical, 5)
+                                .background {
                                     RoundedRectangle(cornerRadius: 10)
                                         .opacity(0.1)
                                 }
                         }.padding()
                     }.padding()
-//                    Spacer()
-                    
-                    Button{
+                    Button {
                         guard viewModel.isEligibleForPresent else {
                             alertIsActive = true
                             return
                         }
-                        DetailViewIsActive = true
+                        detailViewIsActive = true
                     }label: {
-                        HStack{
+                        HStack {
                             Spacer()
                             Text("Search")
                             Spacer()

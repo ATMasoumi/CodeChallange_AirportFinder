@@ -7,13 +7,6 @@
 
 import Foundation
 
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let listOfAirports = try? newJSONDecoder().decode(ListOfAirports.self, from: jsonData)
-
-import Foundation
-
 // MARK: - ListOfAirports
 struct AirportsData: Codable {
     let meta: Meta
@@ -21,16 +14,13 @@ struct AirportsData: Codable {
 }
 
 // MARK: - Datum
-struct Airport: Codable,Equatable,Identifiable {
-    
-    var id : String {
+struct Airport: Codable, Equatable, Identifiable {
+    var id: String {
         String(geoCode.latitude) + String(geoCode.longitude)
     }
-    
     static func == (lhs: Airport, rhs: Airport) -> Bool {
         lhs.geoCode.latitude == rhs.geoCode.latitude && lhs.geoCode.longitude == rhs.geoCode.longitude
     }
-    
     let type: String
     let subType: String
     let name, detailedName: String
@@ -50,7 +40,6 @@ struct Address: Codable {
     let countryCode: String
     let regionCode: String
 }
-
 
 // MARK: - Analytics
 struct Analytics: Codable {
@@ -80,9 +69,9 @@ struct Meta: Codable {
 
 // MARK: - Links
 struct Links: Codable {
-    let linksSelf:String
+    let linksSelf: String
     let last: String?
-    let next:String?
+    let next: String?
 
     enum CodingKeys: String, CodingKey {
         case linksSelf = "self"

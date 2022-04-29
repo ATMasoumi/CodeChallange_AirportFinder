@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct AirportsCellView: View {
-    let airport:Airport
-    init(for airport:Airport){
+    let airport: Airport
+    init(for airport: Airport) {
         self.airport = airport
     }
     var body: some View {
-        VStack (spacing:15){
-            HStack{
+        VStack(spacing: 15) {
+            HStack {
                 Text(airport.name)
                     .bold()
                     .lineLimit(1)
@@ -32,25 +32,24 @@ struct AirportsCellView: View {
             }
         }.foregroundColor(.black)
         .padding()
-        
         .background {
             Color.white
                 .cornerRadius(10)
                 .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 0)
-        }        
-        
+        }
     }
 }
 
 struct ListOfAirportsCellView_Previews: PreviewProvider {
-    
-   
     static var previews: some View {
         let geoCode = GeoCode(latitude: 12, longitude: 12)
-        let address = Address(cityName: "Hamedan", cityCode: "0813", countryName: "Iran", countryCode: "+98", regionCode: "98")
+        let address = Address(cityName: "Hamedan",
+                              cityCode: "0813",
+                              countryName: "Iran",
+                              countryCode: "+98",
+                              regionCode: "98")
         let distance = Distance(value: 10, unit: "KM")
         let analytics = Analytics(flights: Flights(score: 10), travelers: Flights(score: 12))
-        
         let airport = Airport(
             type: "Military",
             subType: "AirDefence",
@@ -63,7 +62,6 @@ struct ListOfAirportsCellView_Previews: PreviewProvider {
             distance: distance,
             analytics: analytics,
             relevance: 10)
-        
         AirportsCellView(for: airport)
     }
 }

@@ -33,6 +33,7 @@
 		189A211E2801FB4400F8EBDB /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189A211D2801FB4400F8EBDB /* LottieView.swift */; };
 		189A21232802D4ED00F8EBDB /* KeychainAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189A21222802D4ED00F8EBDB /* KeychainAccess.swift */; };
 		189A21272802FE1900F8EBDB /* PinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189A21262802FE1900F8EBDB /* PinView.swift */; };
+		18E184F3281BCEF300D0709C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E184F2281BCEF300D0709C /* Date.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		189A21222802D4ED00F8EBDB /* KeychainAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccess.swift; sourceTree = "<group>"; };
 		189A21242802EC2B00F8EBDB /* AirportFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AirportFinder.entitlements; sourceTree = "<group>"; };
 		189A21262802FE1900F8EBDB /* PinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinView.swift; sourceTree = "<group>"; };
+		18E184F2281BCEF300D0709C /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 		181160E827FF563E00AE3EB1 /* Extentions */ = {
 			isa = PBXGroup;
 			children = (
+				18E184F2281BCEF300D0709C /* Date.swift */,
 				181160E927FF564E00AE3EB1 /* Dictionary.swift */,
 			);
 			path = Extentions;
@@ -202,9 +205,7 @@
 				1832B60728006E8C00DF28AB /* ViewModels */,
 				1832B60628006E8300DF28AB /* Views */,
 				1832B60A28006ECE00DF28AB /* NetworkManager */,
-				188B8DF527FCC7CC002A5F33 /* Assets.xcassets */,
-				189A211A2801FA7600F8EBDB /* drop-off-pin.json */,
-				188B4040280323C6006B142C /* empty-list.json */,
+				18E184F4281BCF2A00D0709C /* Assets */,
 				181160E827FF563E00AE3EB1 /* Extentions */,
 				188B8DF727FCC7CC002A5F33 /* Preview Content */,
 			);
@@ -263,6 +264,16 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
+		18E184F4281BCF2A00D0709C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				188B8DF527FCC7CC002A5F33 /* Assets.xcassets */,
+				189A211A2801FA7600F8EBDB /* drop-off-pin.json */,
+				188B4040280323C6006B142C /* empty-list.json */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -273,6 +284,7 @@
 				188B8DEA27FCC7C8002A5F33 /* Sources */,
 				188B8DEB27FCC7C8002A5F33 /* Frameworks */,
 				188B8DEC27FCC7C8002A5F33 /* Resources */,
+				18E184F0281BC36800D0709C /* Run Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -398,6 +410,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		18E184F0281BC36800D0709C /* Run Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		188B8DEA27FCC7C8002A5F33 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -412,6 +445,7 @@
 				188B8E2027FCD4FB002A5F33 /* AmadeusNetworkManager.swift in Sources */,
 				188B061527FDB2870087332F /* ListOfAirportsView.swift in Sources */,
 				1843132427FF1D1300DA082A /* TokenContent.swift in Sources */,
+				18E184F3281BCEF300D0709C /* Date.swift in Sources */,
 				188B8DF427FCC7C8002A5F33 /* ContentView.swift in Sources */,
 				188B8DF227FCC7C8002A5F33 /* AirportFinderApp.swift in Sources */,
 				189A211E2801FB4400F8EBDB /* LottieView.swift in Sources */,

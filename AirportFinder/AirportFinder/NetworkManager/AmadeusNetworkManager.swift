@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AmadeusSort:String {
+enum AmadeusSort: String {
     case relevance = "relevance"
     case distance = "distance"
     case flightsScore = "analytics.flights.score"
@@ -15,14 +15,26 @@ enum AmadeusSort:String {
 }
 
 protocol AmadeusNetworkManagerProtocol {
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, tokenContent: TokenContent, completion:@escaping(_ airportsData:AirportsData?) -> ())
-    func getToken(completion:@escaping(Result<TokenContent, Error>) -> ())
+    func getListOfAirportsFor(lat: Double,
+                              long: Double,
+                              radius: Int,
+                              pageLimit: Int,
+                              pageOffset: Int,
+                              sort: AmadeusSort,
+                              tokenContent: TokenContent,
+                              completion:@escaping(_ airportsData: AirportsData?) -> Void)
+    func getToken(completion:@escaping(Result<TokenContent, Error>) -> Void )
 }
 
-class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
-    
-    func getListOfAirportsFor(lat: Double, long: Double, radius: Int, pageLimit: Int, pageOffset: Int, sort: AmadeusSort, tokenContent: TokenContent, completion: @escaping (_ airportsData:AirportsData?) -> ()) {
-               
+class AmadeusNetworkManager: AmadeusNetworkManagerProtocol {
+    func getListOfAirportsFor(lat: Double,
+                              long: Double,
+                              radius: Int,
+                              pageLimit: Int,
+                              pageOffset: Int,
+                              sort: AmadeusSort,
+                              tokenContent: TokenContent,
+                              completion: @escaping (_ airportsData: AirportsData?) -> Void) {
         var components = URLComponents()
             components.scheme = "https"
             components.host = "test.api.amadeus.com"
@@ -35,13 +47,10 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
                 URLQueryItem(name: "page[offset]", value: "\(pageOffset)"),
                 URLQueryItem(name: "sort", value: sort.rawValue)
             ]
-        
         var request = URLRequest(url: components.url!)
         request.httpMethod = "GET"
-        request.addValue("Bearer \(tokenContent.accessToken)", forHTTPHeaderField:"authorization")
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            
+        request.addValue("Bearer \(tokenContent.accessToken)", forHTTPHeaderField: "authorization")
+        URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data else {
                 return
             }
@@ -54,26 +63,19 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
                 print(error)
             }
         }.resume()
-        
-        
     }
-    
-    func getToken(completion:@escaping(Result<TokenContent, Error>) -> ()) {
-        
+    func getToken(completion:@escaping(Result<TokenContent, Error>) -> Void) {
         let url = URL(string: "https://test.api.amadeus.com/v1/security/oauth2/token")!
-        
         let parameters = [
-            "grant_type":"client_credentials",
-            "client_id":"ijUa006HGfN8b6P2IBdETvQX8oKYkJQT",
-            "client_secret":"8ANTHxyXINXhMFUC"
+            "grant_type": "client_credentials",
+            "client_id": "ijUa006HGfN8b6P2IBdETvQX8oKYkJQT",
+            "client_secret": "8ANTHxyXINXhMFUC"
         ]
-        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = parameters.percentEncoded()
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
                 DispatchQueue.main.async {
                     completion(.failure(error))
@@ -90,4 +92,3 @@ class AmadeusNetworkManager:AmadeusNetworkManagerProtocol {
         }.resume()
     }
 }
-
